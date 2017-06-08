@@ -48,7 +48,8 @@ char usb_str[64];  // buffer for string to send to the usb
 bool Input_Flag = 1;
 
 void HardwareSetup(void);
-void Calibration(void);
+//void Calibration(void);
+uint16 Convert2Dec(uint8 array[], uint8 len);
 
 //CY_ISR(adcInterrupt) {
 //    //ADC_array[adc_buffer].data[lut_index] = ADC_GetResult16();
@@ -147,6 +148,7 @@ int main()
     dma_config();
     
     CyWdtStart(CYWDT_1024_TICKS, CYWDT_LPMODE_NOCHANGE);
+    Opamp_vrt_grnd_Start();
 
     for(;;)
     {
@@ -193,32 +195,21 @@ int main()
                 
                 case START_STREAM: ;  // user wants to read the voltage
                     if (!running) { // if adc is already running ignore this request
-                        //ADC_Start();
-                        //ADC_StartConvert();
                         LCD_Position(0,0);
                         LCD_PrintString("start1");
                         CyDmaChEnable(DMA_ADC_Chan, 1);
-                        ///isr_eoc_Start();
-                        //isr_soc_Start();
                         ADC_Wakeup();
-                        //lut_index = 0;
-                        //adc_buffer = 0;
-                        //CyDelay(5);  // let the adc settle and finish the first conversion
-                        
-                        //isr_adc_Enable();  // start the adc's end of conversion interrupt
                         Timer_ADC_Wakeup();
-                        
                         running = true;
-                        //LCD_Position(0,0);
-                        //LCD_PrintString("start2");
-                         
                     }
                     break;
                 case END_STREAM: ;  // user wants to end reading
                     if (running) {  // is adc is already stopped ignore this request
-                        //isr_adc_Disable();
                         Timer_ADC_Sleep();
+                        CyDelay(1);
+                        CyDmaClearPendingDrq(DMA_ADC_Chan);
                         CyDmaChDisable(DMA_ADC_Chan);
+                        CyDmaChSetInitialTd(DMA_ADC_Chan, DMA_ADC_TD[0]);
                         lut_index = 0;
                         adc_buffer = 0;
                         counter = 0;
@@ -230,14 +221,19 @@ int main()
                     }
                     break;
                 case SET_VIRTUAL_GROUND: ;
-                    VDAC_vrt_gnd_SetValue(OUT_Data_Buffer[1]);
+                    //VDAC_vrt_gnd_SetValue(OUT_Data_Buffer[1]);
+                    uint8 _voltage_ = Convert2Dec(&OUT_Data_Buffer[1], 4);
+                    sprintf(LCD_str, "DAC set: %d    ", _voltage_);
+                    LCD_Position(1,0);
+                    LCD_PrintString(LCD_str);
+                    VDAC_vrt_gnd_SetValue(_voltage_);
                     break;
                 case SET_ADC_BUFFER_GAIN: ;  // user can set the buffer gain of the adc
                     ADC_SetBufferGain(OUT_Data_Buffer[1]-'0');
                     break;
-                case CALIBRATE: ;  // calibrate 
-                    Calibration();
-                    break;
+//                case CALIBRATE: ;  // calibrate 
+//                    Calibration();
+//                    break;
                 case IDENTIFY: ; // Identify the device
                     USB_Export_Data((uint8*)"USB Test - Plant_Acq", 20);
                     break;
@@ -248,43 +244,50 @@ int main()
                     LCD_PrintString(LCD_str);
                     Counter_buffer_reset_WriteCompare(num_channels);
                     break;
+                
             }
             OUT_Data_Buffer[0] = '0';  // clear data buffer cause it has been processed
             Input_Flag = false;  // turn off input flag because it has been processed
-            //LCD_Position(0,0);
-            //LCD_PrintString("cycle");
         }
         
     }
 }
-
-void Calibration(void) {
-    VDAC_calibrate_Start();
-    AMux_calibrate_Next();
-    CyDelay(200);
-    VDAC_calibrate_SetValue(0);
-    for (uint8 i = 0; i < 4; i++) {
-        CyDelay(500);
-        VDAC_calibrate_SetValue(20); // set VDAC to 20*4mV = 80 mV
-        CyDelay(500);
-        VDAC_calibrate_SetValue(0);
-    }
-    CyDelay(500);
-    VDAC_calibrate_Stop();
-    AMux_calibrate_DisconnectAll();
-}
+//
+//void Calibration(void) {
+//    VDAC_calibrate_Start();
+//    AMux_calibrate_Start();
+//    AMux_calibrate_Select(0);
+//    CyDelay(200);
+//    VDAC_calibrate_SetValue(0);
+//    for (uint8 i = 0; i < 4; i++) {
+//        CyDelay(500);
+//        VDAC_calibrate_SetValue(20); // set VDAC to 20*4mV = 80 mV
+//        CyDelay(500);
+//        VDAC_calibrate_SetValue(0);
+//    }
+//    CyDelay(500);
+//    VDAC_calibrate_Stop();
+//    AMux_calibrate_DisconnectAll();
+//}
 
 void HardwareSetup(void){
     LCD_Start();
     LCD_Position(0,0);
     LCD_PrintString("Plant ACQ");
-    AMux_calibrate_Init();
     ADC_Start();
     VDAC_vrt_gnd_Start();
     Timer_ADC_Start();
     Timer_ADC_Sleep();
     PWM_delay_Start();
     Counter_buffer_reset_Start();
+}
+
+uint16 Convert2Dec(uint8 array[], uint8 len){
+    uint16 num = 0;
+    for (int i = 0; i < len; i++){
+        num = num * 10 + (array[i] - '0');
+    }
+    return num;
 }
 
 /* [] END OF FILE */

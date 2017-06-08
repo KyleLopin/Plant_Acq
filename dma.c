@@ -58,8 +58,9 @@ void dma_config() {
     //CyDmaChEnable(DMA_ADC_Chan, 1);
 }
 
-//void dma_config() {
-
-
+void dma_disable() {
+    
+    
+}
 
 /* [] END OF FILE */

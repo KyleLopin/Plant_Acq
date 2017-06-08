@@ -20,10 +20,6 @@
 *        Global Variables
 **************************************/ 
     
-    
-    
-
-    
 #define EXPORT_ADC_CHANNEL          'F'
 #define START_STREAM                'R'
 #define END_STREAM                  'E'
@@ -32,6 +28,9 @@
 #define CALIBRATE                   'C'
 #define IDENTIFY                    'I'
 #define SET_NUMBER_OF_CHANNELS      'S'
+    
+#define ENABLE_AMUX_ADC              1
+#define DISABLE_AMUX_ADC             0   
     
 /**************************************
 *        USB INPUT OPTIONS
