@@ -12,7 +12,7 @@ NOTE: WAITING ON USB VENDOR AND PRODUCT ID
 *********************************************************************************/
 
 #include <project.h>
-#include "USB_protocols.h"
+#include "usb_protocols.h"
 
 
 /******************************************************************************
@@ -43,8 +43,8 @@ uint8 USB_CheckInput(uint8 buffer[]) {
         USBFS_ReadOutEP(OUT_ENDPOINT, buffer, OUT_COUNT);
         /* Re-enable OUT endpoint */
         USBFS_EnableOutEP(OUT_ENDPOINT);
-        LCD_Position(0,0);
-        LCD_PrintString(buffer);
+        //LCD_Position(0,0);
+        //LCD_PrintString((char*)buffer);
         
         return true;
     }
@@ -81,7 +81,7 @@ void USB_Export_Data(uint8 array[], uint16 size) {
         {
         }
         //LCD_Position(1,0);
-        //LCD_PrintString("Export_in1");
+        //LCD_PrintString("Export_in3");
         uint16 size_to_send = size - i;
         if (size_to_send > MAX_IN_ENDPOINT_BUFFER_SIZE) {
             size_to_send = MAX_IN_ENDPOINT_BUFFER_SIZE;
@@ -90,17 +90,25 @@ void USB_Export_Data(uint8 array[], uint16 size) {
             USBFS_LoadInEP(STREAMING_ENDPOINT, &array[i], size_to_send);  // TODO: Fix this
             USBFS_EnableOutEP(OUT_ENDPOINT);
         }
+        //LCD_Position(1,0);
+        //LCD_PrintString("Export_in4");
     }
 }
 
 void USB_Export_Ctrl_Info(uint8* message, uint16 size) {
+    //LCD_Position(1,0);
+    //LCD_PrintString("Export_inI1");
     while(USBFS_GetEPState(INFO_IN_ENDPOINT) != USBFS_IN_BUFFER_EMPTY)
     {
     }
+    //LCD_Position(1,0);
+    //LCD_PrintString("Export_inI2");
     if(USBFS_GetEPState(INFO_IN_ENDPOINT) == USBFS_IN_BUFFER_EMPTY){
         USBFS_LoadInEP(INFO_IN_ENDPOINT, message, size);
         USBFS_EnableOutEP(OUT_ENDPOINT);
     }
+    //LCD_Position(1,0);
+    //LCD_PrintString("Export_inI3");
 }
 
 /* [] END OF FILE */

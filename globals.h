@@ -28,6 +28,8 @@
 #define CALIBRATE                   'C'
 #define IDENTIFY                    'I'
 #define SET_NUMBER_OF_CHANNELS      'S'
+#define SET_STIMULATOR              's'
+#define GIVE_STIMULUS               'G'
     
 #define ENABLE_AMUX_ADC              1
 #define DISABLE_AMUX_ADC             0   

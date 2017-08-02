@@ -509,6 +509,7 @@
       <Data key="36b99935-6e02-431d-aa2d-823c78fd6941" value="Ground_pin" />
       <Data key="51e14435-1333-4a5a-840c-ea1ba7bb4c0f" value="opamp_out" />
       <Data key="62cf6e32-2484-4916-a7e9-d28e67431908" value="Pin_Count_0" />
+      <Data key="082f9014-1baa-45cb-a527-0b2dd2e9a114" value="Electro_Stim_Ch_2" />
       <Data key="13568ed6-185a-45c9-bfc3-4385df281cfb" value="Pin_1" />
       <Data key="77715107-f8d5-47e5-a629-0fb83101ac6b" value="vrt_gnd_pin" />
       <Data key="a7e53122-c739-492a-aed1-f034efa59a70" value="Pin_buffer_isr" />
@@ -516,6 +517,8 @@
       <Data key="a53d4b99-a8e1-48e7-a553-650d479d5c3c" value="Pin_1" />
       <Data key="a0210346-222a-41d0-950b-550bf2f5696d" value="Ch_1" />
       <Data key="ace72ed1-7ab5-496d-8e6c-d0a10c3a4bae" value="Pin_seq_reset" />
+      <Data key="b4a2bbdc-7a7e-4f47-a242-d3cca724113a" value="Electro_Stim_Ch_1" />
+      <Data key="b26e9619-d2bb-421f-af41-bc43e4258ed9" value="Electro_Stim_Ch_3" />
       <Data key="b410f6b6-5f67-450d-b3f7-c95aa4157873" value="Ch_3" />
       <Data key="c0d00764-7a35-40bc-aebe-bfc8996b96d9" value="Pin_SOC" />
       <Data key="ca092671-e9c8-4b46-ad01-61e55c1c1257" value="Pin_3" />
@@ -527,6 +530,7 @@
       <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="timer_pin" />
       <Data key="eaaff216-ff56-4c98-a6cd-0113853c9871" value="ADC_in" />
       <Data key="f0c968f8-084b-4315-be2a-da6020b77e45/ed092b9b-d398-4703-be89-cebf998501f6" value="LCD_LCDPort" />
+      <Data key="f84ec249-7db6-451c-9799-5330aa164d55" value="Electro_Stim_Ch_0" />
     </Group>
   </Group>
   <Group key="EEPROM">
@@ -3678,6 +3682,11 @@
         <Data key="Port Format" value="1,6" />
       </Group>
     </Group>
+    <Group key="082f9014-1baa-45cb-a527-0b2dd2e9a114">
+      <Group key="0">
+        <Data key="Port Format" value="3,4" />
+      </Group>
+    </Group>
     <Group key="77715107-f8d5-47e5-a629-0fb83101ac6b">
       <Group key="0">
         <Data key="Port Format" value="0,1" />
@@ -3705,7 +3714,17 @@
     </Group>
     <Group key="ace72ed1-7ab5-496d-8e6c-d0a10c3a4bae">
       <Group key="0">
+        <Data key="Port Format" value="3,1" />
+      </Group>
+    </Group>
+    <Group key="b4a2bbdc-7a7e-4f47-a242-d3cca724113a">
+      <Group key="0">
         <Data key="Port Format" value="0,7" />
+      </Group>
+    </Group>
+    <Group key="b26e9619-d2bb-421f-af41-bc43e4258ed9">
+      <Group key="0">
+        <Data key="Port Format" value="3,5" />
       </Group>
     </Group>
     <Group key="b410f6b6-5f67-450d-b3f7-c95aa4157873">
@@ -3774,6 +3793,11 @@
       </Group>
       <Group key="6">
         <Data key="Port Format" value="2,6" />
+      </Group>
+    </Group>
+    <Group key="f84ec249-7db6-451c-9799-5330aa164d55">
+      <Group key="0">
+        <Data key="Port Format" value="0,6" />
       </Group>
     </Group>
     <Group key="UnAssigned Pins">
